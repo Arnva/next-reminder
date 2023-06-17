@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from 'react';
 
 export default function Home({ params }) {
@@ -7,28 +8,6 @@ export default function Home({ params }) {
   const [datetime, setDatetime] = useState('');
 
   const email = params.name;
-
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        const response = await fetch('/api/saveTodos', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, todos, datetime }),
-        });
-        const data = await response.json();
-        console.log(data.message);
-      } catch (error) {
-        console.error(error);
-        console.log(JSON.stringify({ email, todos, datetime }));
-      }
-    };
-
-    // Call postData when the component mounts
-    postData();
-  }, []);
 
   const addTodo = () => {
     if (newTodo.trim() !== '') {
@@ -45,9 +24,16 @@ export default function Home({ params }) {
     setDatetime(event.target.value);
   };
 
-  const finishAdding = () => {
+  const finishAdding = async() => {
     setIsAdding(false);
-    postData(); // Call the postData function here
+    const response = await fetch('/api/saveTodos', {
+      method: 'POST',
+      body: JSON.stringify({
+        jsonEmail: email,
+        jsonTodos: todos,
+        jsonDateTime: datetime,
+      }),
+    });
   };
 
   const removeTodo = (index) => {

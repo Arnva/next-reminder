@@ -10,7 +10,7 @@ const checkScheduledTasks = () => {
   const jsonFiles = fs.readdirSync(directory).filter((file) => file.endsWith('.json'));
 
   // Get the current time
-  const currentTime = new Date().toISOString();
+  const currentTime = new Date().toISOString().substring(0, 10);
 
   // Loop through each JSON file
   jsonFiles.forEach((file) => {
