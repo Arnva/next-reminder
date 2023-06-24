@@ -1,5 +1,5 @@
 import fs from 'fs';
-// import {checkScheduledTasks} from './dataService.js'
+import checkScheduledTasks from './dataService.js'
 import { NextResponse } from 'next/server';
 
 export async function GET(req){
@@ -29,11 +29,13 @@ export async function POST(req) {
     return new Response(error)
   }
 
-  checkScheduledTasks();
+  
   
   return new Response('OK');
 
 }
+
+setInterval(checkScheduledTasks, 12 * 60 * 60 * 1000);
 
 
 
